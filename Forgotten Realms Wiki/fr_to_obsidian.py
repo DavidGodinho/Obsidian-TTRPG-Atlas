@@ -940,6 +940,14 @@ def process(xml_path: Path, output_dir: Path, json_path: Path = None,
         print("Images: disabled  (use --images to enable)")
     print()
 
+    # --- PATH PATCH ---
+    if xml_path.is_dir():
+        xml_files = list(xml_path.glob("*.xml"))
+        if not xml_files:
+            raise FileNotFoundError(f"No XML files found in directory: {xml_path}")
+        xml_path = xml_files[0]  # Target the actual XML file globally
+    # ------------------
+
     redirect_map  = build_redirect_map(xml_path)
     allowlist     = None
     article_index = None
